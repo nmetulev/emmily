@@ -94,6 +94,8 @@ namespace emmily.DataProviders
                     dayData.HighTemperature = (int) Math.Round(forecast.TempMax);
                     dayData.LowTemperature = (int)Math.Round(forecast.TempMin);
                     dayData.Time = forecast.Date.ToLocalTime();
+
+                    data.FiveDayForecast.Add(dayData);
                 }
             }
 
