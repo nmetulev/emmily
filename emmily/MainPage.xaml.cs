@@ -3,13 +3,17 @@ using emmily.Data;
 using emmily.DataProviders;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.SpeechRecognition;
+using Windows.Media.SpeechSynthesis;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -39,12 +43,16 @@ namespace emmily
 
             List<Task> tasks = new List<Task>();
             tasks.Add(InitWeather());
+            tasks.Add(InitSpeech());
             // init camera
             // init speech
             // init network
             // init ui
 
             await Task.WhenAll(tasks.ToArray());
+
+            if (!_speechInit) BottomText.Text = "Speech did not initialize, but you can still look at yourself :)";
+            else BottomText.Text = DefaultBottomText;
 
             LoadingScreen.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
@@ -110,6 +118,160 @@ namespace emmily
             Weather_Description.Text = currentWeather.Description;
             Weather_Location.Text = currentWeather.Location.ToLower();
             Weather_Wind.Text = currentWeather.Wind;
+        }
+
+        #endregion
+
+        #region Speech
+
+        private SpeechRecognizer _speechRecognizer;
+        private SpeechRecognizer _continousSpeechRecognizer;
+        private bool _speechInit = false;
+        private ManualResetEvent manualResetEvent;
+
+        private string DefaultBottomText = "go ahead, ask me anything";
+
+        
+
+        private async Task InitSpeech()
+        {
+            try
+            {
+                manualResetEvent = new ManualResetEvent(false);
+
+                _continousSpeechRecognizer = new SpeechRecognizer();
+                _continousSpeechRecognizer.Constraints.Add(new SpeechRecognitionListConstraint(new List<String>() { "Hey Em" }, "start"));
+                var result = await _continousSpeechRecognizer.CompileConstraintsAsync();
+
+                if (result.Status != SpeechRecognitionResultStatus.Success)
+                {
+                    Debug.WriteLine("Failed to init cont speech: " + result.Status.ToString());
+                    return;
+                }
+
+                _speechRecognizer = new SpeechRecognizer();
+                result = await _speechRecognizer.CompileConstraintsAsync();
+                _speechRecognizer.HypothesisGenerated += _speechRecognizer_HypothesisGenerated;
+
+                if (result.Status != SpeechRecognitionResultStatus.Success)
+                {
+                    Debug.WriteLine("Failed to init speech: " + result.Status.ToString());
+                    return;
+                }
+
+                _continousSpeechRecognizer.ContinuousRecognitionSession.ResultGenerated += ContinuousRecognitionSession_ResultGenerated;
+                await _continousSpeechRecognizer.ContinuousRecognitionSession.StartAsync(SpeechContinuousRecognitionMode.Default);
+
+                _speechInit = true;
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private void ContinuousRecognitionSession_ResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
+        {
+            if (args.Result.Confidence == SpeechRecognitionConfidence.Medium ||
+                args.Result.Confidence == SpeechRecognitionConfidence.High)
+            {
+                var t = BottomText.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    StartListening();
+                });
+            }
+
+        }
+
+        private async Task UpdateBottomText(string text, bool speak = false)
+        {
+            await BottomText.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                BottomText.Text = text;
+                
+            });
+
+            if (speak)
+                await SpeakAsync(text);
+        }
+
+        private void _speechRecognizer_HypothesisGenerated(SpeechRecognizer sender, SpeechRecognitionHypothesisGeneratedEventArgs args)
+        {
+            UpdateBottomText(args.Hypothesis.Text);
+        }
+
+        private async Task StartListening()
+        {
+            await _continousSpeechRecognizer.ContinuousRecognitionSession.CancelAsync();
+            UpdateBottomText("listening...");
+
+            Media.Source = new Uri("ms-appx:///Assets/Sounds/sound1.wav");
+
+            var spokenText = await ListenForText();
+            if (string.IsNullOrWhiteSpace(spokenText) ||
+                spokenText.ToLower().Contains("cancel") ||
+                spokenText.ToLower().Contains("never mind"))
+            {
+                UpdateBottomText("no problem");
+            }
+            else
+            {
+                UpdateBottomText("\"" + spokenText + "\"");
+                var result = await WolframProvider.GetInstance().GetSimpleResultForQuery(spokenText);
+                if (result != null)
+                    await UpdateBottomText(result, true);
+                else
+                    UpdateBottomText("I don't know what you are talking about wilis");
+            }
+
+            await Task.Delay(3000);
+
+            UpdateBottomText(DefaultBottomText);
+            await _continousSpeechRecognizer.ContinuousRecognitionSession.StartAsync();
+
+        }
+
+        private async Task<string> ListenForText()
+        {
+            string result = null;
+            try
+            {
+                SpeechRecognitionResult speechRecognitionResult = await _speechRecognizer.RecognizeAsync();
+                if (speechRecognitionResult.Status == SpeechRecognitionResultStatus.Success)
+                {
+                    result = speechRecognitionResult.Text;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            return result;
+        }
+
+        private async Task SpeakAsync(string toSpeak)
+        {
+            SpeechSynthesizer speechSyntesizer = new SpeechSynthesizer();
+            SpeechSynthesisStream syntStream = await speechSyntesizer.SynthesizeTextToStreamAsync(toSpeak);
+            Media.SetSource(syntStream, syntStream.ContentType);
+
+            Media.MediaEnded += Media_MediaEnded;
+
+            Task t = Task.Run(() =>
+            {
+                manualResetEvent.Reset();
+                manualResetEvent.WaitOne();
+            });
+
+            await t;
+        }
+
+        private void Media_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            manualResetEvent.Set();
+            Media.MediaEnded -= Media_MediaEnded;
         }
 
         #endregion

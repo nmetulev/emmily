@@ -99,6 +99,7 @@
     <Compile Include="Common\CustomDateProvider.cs" />
     <Compile Include="DataProviders\LocationProvider.cs" />
     <Compile Include="DataProviders\WeatherProvider.cs" />
+    <Compile Include="DataProviders\WolframProvider.cs" />
     <Compile Include="Data\GeoIP.cs" />
     <Compile Include="Data\Settings.cs" />
     <Compile Include="Data\WeatherData.cs" />
@@ -114,6 +115,9 @@
     <None Include="emmily_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Sounds\sound1.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
