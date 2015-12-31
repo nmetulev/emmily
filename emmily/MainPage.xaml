@@ -5,9 +5,51 @@
     xmlns:local="using:emmily"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    RequestedTheme="Dark">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="Black" >
+
+        <Grid Name="HomeContent" Margin="30">
+            <Grid VerticalAlignment="Top" HorizontalAlignment="Left">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Name="Clock_Date" FontSize="30">this is le date</TextBlock>
+                    <TextBlock Name="Clock_Time" FontSize="60">12:00 am</TextBlock>
+                </StackPanel>
+            </Grid>
+
+            <Grid VerticalAlignment="Top" HorizontalAlignment="Right">
+                <StackPanel>
+                    <TextBlock Name="Weather_Location" FontSize="30" TextAlignment="Right">bellevue</TextBlock>
+                    <TextBlock Name="Weather_Temp" FontSize="60" TextAlignment="Right">3C</TextBlock>
+                    <Grid>
+                        <StackPanel>
+                            <Grid Width="150">
+                                <StackPanel HorizontalAlignment="Right">
+                                    <TextBlock TextAlignment="Center" Foreground="Gray">high</TextBlock>
+                                    <TextBlock Name="Weather_High" FontSize="30" TextAlignment="Center" Margin="0">32C</TextBlock>
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Left">
+                                    <TextBlock TextAlignment="Center" Foreground="Gray">low</TextBlock>
+                                    <TextBlock Name="Weather_Low" FontSize="30" TextAlignment="Center" Margin="0">32C</TextBlock>
+                                </StackPanel>
+                            </Grid>
+                            <TextBlock Name="Weather_Description" FontSize="20" TextAlignment="Right">light rain</TextBlock>
+                            <TextBlock Name="Weather_Wind" FontSize="20" TextAlignment="Right"></TextBlock>
+                            
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <Frame Name="DynamicContent">
+            
+        </Frame>
+
+        <Grid Name="LoadingScreen" Background="Black" Visibility="Collapsed">
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Waking up now...</TextBlock>
+        </Grid>
 
     </Grid>
 </Page>

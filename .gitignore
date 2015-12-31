@@ -197,3 +197,4 @@ FakesAssemblies/
 
 !emmily_TemporaryKey.pfx
 
+emmily/APIKeys.cs
