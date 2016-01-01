@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="Common\CustomDateProvider.cs" />
     <Compile Include="DataProviders\LocationProvider.cs" />
+    <Compile Include="DataProviders\RandomFactProvider.cs" />
     <Compile Include="DataProviders\WeatherProvider.cs" />
     <Compile Include="DataProviders\WolframProvider.cs" />
     <Compile Include="Data\GeoIP.cs" />
