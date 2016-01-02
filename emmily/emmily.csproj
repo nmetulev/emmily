@@ -116,6 +116,7 @@
     <None Include="emmily_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Sounds\silent.wav" />
     <Content Include="Assets\Sounds\sound1.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

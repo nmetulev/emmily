@@ -11,6 +11,7 @@
     <Grid Background="Black" >
 
         <MediaElement Name="Media" Visibility="Collapsed"></MediaElement>
+        <MediaElement Visibility="Collapsed" Source="Assets/Sounds/silent.wav" AutoPlay="True" MediaEnded="MediaElement_MediaEnded" Volume="0.01"></MediaElement>
 
         <Grid Name="HomeContent" Margin="30">
             <Grid VerticalAlignment="Top" HorizontalAlignment="Left">

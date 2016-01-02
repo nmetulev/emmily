@@ -275,5 +275,11 @@ namespace emmily
         }
 
         #endregion
+
+        private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            MediaElement el = sender as MediaElement;
+            el.Play();
+        }
     }
 }
