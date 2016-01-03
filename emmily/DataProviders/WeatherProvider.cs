@@ -29,6 +29,8 @@ namespace emmily.DataProviders
         private DispatcherTimer _refreshTimer;
         private bool _updatingCurrentWeather = false;
 
+        private GeoIP _geoLocation;
+
         private WeatherProvider()
         {
             WeatherNet.ClientSettings.ApiKey = APIKeys.WeatherAPIKey;
@@ -55,18 +57,22 @@ namespace emmily.DataProviders
 
         public async Task<WeatherData> UpdateCurrentWeatherNow()
         {
-            var geoLocation = await LocationProvider.GetInstance().GetLocationForCurrentIP();
-            if (geoLocation == null) return null;
+            if (_geoLocation == null)
+            {
+                _geoLocation = await LocationProvider.GetInstance().GetLocationForCurrentIP();
+                if (_geoLocation == null) return null;
+            }
+            
 
             var data = new WeatherData();
-            data.Location = geoLocation.city;
+            data.Location = _geoLocation.city;
 
-            var currentWeatherTask = WeatherNet.Clients.CurrentWeather.GetByCityNameAsync(geoLocation.city, geoLocation.country_name, "en", Settings.Unit.ToString().ToLower());
-            var fiveDayWeatherTask = WeatherNet.Clients.FiveDaysForecast.GetByCityNameAsync(geoLocation.city, geoLocation.country_name, "en", Settings.Unit.ToString().ToLower());
+            var currentWeatherTask = WeatherNet.Clients.CurrentWeather.GetByCityNameAsync(_geoLocation.city, _geoLocation.country_name, "en", Settings.Unit.ToString().ToLower());
+            //var fiveDayWeatherTask = WeatherNet.Clients.FiveDaysForecast.GetByCityNameAsync(_geoLocation.city, _geoLocation.country_name, "en", Settings.Unit.ToString().ToLower());
 
             List<Task> tasks = new List<Task>();
             tasks.Add(currentWeatherTask);
-            tasks.Add(fiveDayWeatherTask);
+            //tasks.Add(fiveDayWeatherTask);
 
             await Task.WhenAll(tasks.ToArray());
 
@@ -82,22 +88,22 @@ namespace emmily.DataProviders
             data.Description = currentWeatherData.Item.Description;
             data.Wind = currentWeatherData.Item.WindSpeed.ToString() + (Settings.Unit == Units.Metric ? " m/s" : " mph");
 
-            var fiveDayWeaterForecast = fiveDayWeatherTask.Result;
+            //var fiveDayWeaterForecast = fiveDayWeatherTask.Result;
 
-            if (fiveDayWeaterForecast.Success)
-            {
-                data.FiveDayForecast = new List<WeatherData>();
-                foreach (var forecast in fiveDayWeaterForecast.Items)
-                {
-                    var dayData = new WeatherData();
-                    dayData.Temperature = (int) Math.Round(forecast.Temp);
-                    dayData.HighTemperature = (int) Math.Round(forecast.TempMax);
-                    dayData.LowTemperature = (int)Math.Round(forecast.TempMin);
-                    dayData.Time = forecast.Date.ToLocalTime();
+            //if (fiveDayWeaterForecast.Success)
+            //{
+            //    data.FiveDayForecast = new List<WeatherData>();
+            //    foreach (var forecast in fiveDayWeaterForecast.Items)
+            //    {
+            //        var dayData = new WeatherData();
+            //        dayData.Temperature = (int) Math.Round(forecast.Temp);
+            //        dayData.HighTemperature = (int) Math.Round(forecast.TempMax);
+            //        dayData.LowTemperature = (int)Math.Round(forecast.TempMin);
+            //        dayData.Time = forecast.Date.ToLocalTime();
 
-                    data.FiveDayForecast.Add(dayData);
-                }
-            }
+            //        data.FiveDayForecast.Add(dayData);
+            //    }
+            //}
 
             CurrentData = data;
 
