@@ -31,8 +31,6 @@ namespace emmily
         {
             this.InitializeComponent();
             LoadingScreen.Visibility = Windows.UI.Xaml.Visibility.Visible;
-
-            
         }
 
         public TimeSpan TypeSpan { get; private set; }
@@ -180,8 +178,7 @@ namespace emmily
 
         private void ContinuousRecognitionSession_ResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
         {
-            if (args.Result.Confidence == SpeechRecognitionConfidence.Medium ||
-                args.Result.Confidence == SpeechRecognitionConfidence.High)
+            if (args.Result.Confidence == SpeechRecognitionConfidence.High)
             {
                 var t = BottomText.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {

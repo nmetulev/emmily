@@ -106,7 +106,7 @@
     <Compile Include="DataProviders\WolframProvider.cs" />
     <Compile Include="Data\GeoIP.cs" />
     <Compile Include="Data\LUISResponse.cs" />
-    <Compile Include="Data\Settings.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Data\WeatherData.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
