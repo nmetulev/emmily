@@ -13,6 +13,7 @@ namespace emmily.Data
         public static TimeFormat TimeFormat = TimeFormat._12;
 
         public static int WeatherRefreshInterval = 15; // in minutes
+        
     }
 
     public enum Units

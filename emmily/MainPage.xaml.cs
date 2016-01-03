@@ -40,21 +40,27 @@ namespace emmily
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             InitClock();
+            InitMusic();
 
             List<Task> tasks = new List<Task>();
             tasks.Add(InitWeather());
             tasks.Add(InitSpeech());
             // init camera
-            // init speech
-            // init network
-            // init ui
+            // init lights
+
 
             await Task.WhenAll(tasks.ToArray());
-
+            
             if (!_speechInit) BottomText.Text = "Speech did not initialize, but you can still look at yourself :)";
             else BottomText.Text = DefaultBottomText;
 
             LoadingScreen.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+        }
+
+        private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            MediaElement el = sender as MediaElement;
+            el.Play();
         }
 
         #region Clock
@@ -206,6 +212,8 @@ namespace emmily
             await _continousSpeechRecognizer.ContinuousRecognitionSession.CancelAsync();
             UpdateBottomText("listening...");
 
+            MusicProvider.GetInstance().LowerVolume();
+
             Media.Source = new Uri("ms-appx:///Assets/Sounds/sound1.wav");
 
             var spokenText = await ListenForText();
@@ -218,12 +226,32 @@ namespace emmily
             else
             {
                 UpdateBottomText("\"" + spokenText + "\"");
-                var result = await WolframProvider.GetInstance().GetSimpleResultForQuery(spokenText);
-                if (result != null)
-                    await UpdateBottomText(result, true);
+
+                var LUISTask = LUISProvider.GetInstance().GetIntent(spokenText);
+                var WolframTask = WolframProvider.GetInstance().GetSimpleResultForQuery(spokenText);
+
+
+                List<Task> tasks = new List<Task>();
+                tasks.Add(LUISTask);
+                tasks.Add(WolframTask);
+
+                await Task.WhenAll(tasks.ToArray());
+
+                if (LUISTask.Result)
+                {
+                    UpdateBottomText("Done :)");
+                }
                 else
-                    UpdateBottomText("I don't know what you are talking about wilis");
+                {
+                    var result = WolframTask.Result;
+                    if (result != null)
+                        await UpdateBottomText(result, true);
+                    else
+                        UpdateBottomText("I don't know what you are talking about wilis");
+                }
             }
+
+            MusicProvider.GetInstance().ResetVolume();
 
             await Task.Delay(3000);
 
@@ -276,10 +304,33 @@ namespace emmily
 
         #endregion
 
-        private void MediaElement_MediaEnded(object sender, RoutedEventArgs e)
+        #region Music
+
+        private void InitMusic()
         {
-            MediaElement el = sender as MediaElement;
-            el.Play();
+            MusicProvider.GetInstance().MusicStarted += MainPage_MusicStarted;
+            MusicProvider.GetInstance().MusicStoped += MainPage_MusicStoped;
         }
+
+        private void MainPage_MusicStoped(object sender, EventArgs e)
+        {
+            var t = MusicInfo.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                MusicInfo.Visibility = Visibility.Collapsed;
+
+            });
+        }
+
+        private void MainPage_MusicStarted(object sender, EventArgs e)
+        {
+            var t = MusicInfo.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                MusicInfo.Visibility = Visibility.Visible;
+            });
+        }
+
+        #endregion
+
+        
     }
 }

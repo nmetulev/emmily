@@ -18,6 +18,12 @@
                 <StackPanel Orientation="Vertical">
                     <TextBlock Name="Clock_Date" FontSize="30">this is le date</TextBlock>
                     <TextBlock Name="Clock_Time" FontSize="60">12:00 am</TextBlock>
+                    <StackPanel Name="MusicInfo" Visibility="Collapsed" Orientation="Horizontal" Margin="0,30,0,0">
+                        <Viewbox Height="40">
+                            <SymbolIcon Symbol="Play"></SymbolIcon>
+                        </Viewbox>
+                        <TextBlock FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0">C89.5 FM / Seattle</TextBlock>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
 
