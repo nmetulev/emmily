@@ -45,6 +45,7 @@ namespace emmily
             List<Task> tasks = new List<Task>();
             tasks.Add(InitWeather());
             tasks.Add(InitSpeech());
+            tasks.Add(InitLights());
             // init camera
             // init lights
 
@@ -331,6 +332,16 @@ namespace emmily
 
         #endregion
 
-        
+        #region Lights
+
+        private async Task InitLights()
+        {
+            var provider = LightProvider.GetInstance();
+            await provider.FindAndConnectToLights();
+        }
+
+        #endregion
+
+
     }
 }

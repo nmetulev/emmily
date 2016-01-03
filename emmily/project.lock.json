@@ -3,7 +3,7 @@
   "version": 1,
   "targets": {
     "UAP,Version=v10.0": {
-      "Microsoft.Bcl/1.1.9": {
+      "Microsoft.Bcl/1.1.10": {
         "dependencies": {
           "Microsoft.Bcl.Build": "[1.0.14, )"
         },
@@ -54,9 +54,9 @@
           "lib/netcore50/Microsoft.CSharp.dll": {}
         }
       },
-      "Microsoft.Net.Http/2.2.28": {
+      "Microsoft.Net.Http/2.2.29": {
         "dependencies": {
-          "Microsoft.Bcl": "[1.1.9, )",
+          "Microsoft.Bcl": "[1.1.10, )",
           "Microsoft.Bcl.Build": "[1.0.14, )"
         },
         "compile": {
@@ -246,6 +246,27 @@
         },
         "runtime": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Q42.HueApi/2.2.0": {
+        "dependencies": {
+          "Microsoft.Net.Http": "[2.2.29, )",
+          "Newtonsoft.Json": "[7.0.1, )",
+          "Q42.HueApi.WinRT": "[1.4.3.42, )"
+        },
+        "compile": {
+          "lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.dll": {}
+        }
+      },
+      "Q42.HueApi.WinRT/1.4.3.42": {
+        "compile": {
+          "lib/portable-win81+WindowsPhoneApp81/Q42.HueApi.WinRT.dll": {}
+        },
+        "runtime": {
+          "lib/portable-win81+WindowsPhoneApp81/Q42.HueApi.WinRT.dll": {}
         }
       },
       "System.AppContext/4.0.0": {
@@ -1607,7 +1628,7 @@
       }
     },
     "UAP,Version=v10.0/win10-arm": {
-      "Microsoft.Bcl/1.1.9": {
+      "Microsoft.Bcl/1.1.10": {
         "dependencies": {
           "Microsoft.Bcl.Build": "[1.0.14, )"
         },
@@ -1658,9 +1679,9 @@
           "lib/netcore50/Microsoft.CSharp.dll": {}
         }
       },
-      "Microsoft.Net.Http/2.2.28": {
+      "Microsoft.Net.Http/2.2.29": {
         "dependencies": {
-          "Microsoft.Bcl": "[1.1.9, )",
+          "Microsoft.Bcl": "[1.1.10, )",
           "Microsoft.Bcl.Build": "[1.0.14, )"
         },
         "compile": {
@@ -1893,6 +1914,27 @@
         },
         "runtime": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Q42.HueApi/2.2.0": {
+        "dependencies": {
+          "Microsoft.Net.Http": "[2.2.29, )",
+          "Newtonsoft.Json": "[7.0.1, )",
+          "Q42.HueApi.WinRT": "[1.4.3.42, )"
+        },
+        "compile": {
+          "lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.dll": {}
+        }
+      },
+      "Q42.HueApi.WinRT/1.4.3.42": {
+        "compile": {
+          "lib/portable-win81+WindowsPhoneApp81/Q42.HueApi.WinRT.dll": {}
+        },
+        "runtime": {
+          "lib/portable-win81+WindowsPhoneApp81/Q42.HueApi.WinRT.dll": {}
         }
       },
       "System.AppContext/4.0.0": {
@@ -3301,7 +3343,7 @@
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
-      "Microsoft.Bcl/1.1.9": {
+      "Microsoft.Bcl/1.1.10": {
         "dependencies": {
           "Microsoft.Bcl.Build": "[1.0.14, )"
         },
@@ -3352,9 +3394,9 @@
           "lib/netcore50/Microsoft.CSharp.dll": {}
         }
       },
-      "Microsoft.Net.Http/2.2.28": {
+      "Microsoft.Net.Http/2.2.29": {
         "dependencies": {
-          "Microsoft.Bcl": "[1.1.9, )",
+          "Microsoft.Bcl": "[1.1.10, )",
           "Microsoft.Bcl.Build": "[1.0.14, )"
         },
         "compile": {
@@ -3573,6 +3615,27 @@
         },
         "runtime": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Q42.HueApi/2.2.0": {
+        "dependencies": {
+          "Microsoft.Net.Http": "[2.2.29, )",
+          "Newtonsoft.Json": "[7.0.1, )",
+          "Q42.HueApi.WinRT": "[1.4.3.42, )"
+        },
+        "compile": {
+          "lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.dll": {}
+        }
+      },
+      "Q42.HueApi.WinRT/1.4.3.42": {
+        "compile": {
+          "lib/portable-win81+WindowsPhoneApp81/Q42.HueApi.WinRT.dll": {}
+        },
+        "runtime": {
+          "lib/portable-win81+WindowsPhoneApp81/Q42.HueApi.WinRT.dll": {}
         }
       },
       "System.AppContext/4.0.0": {
@@ -4967,7 +5030,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x64": {
-      "Microsoft.Bcl/1.1.9": {
+      "Microsoft.Bcl/1.1.10": {
         "dependencies": {
           "Microsoft.Bcl.Build": "[1.0.14, )"
         },
@@ -5018,9 +5081,9 @@
           "lib/netcore50/Microsoft.CSharp.dll": {}
         }
       },
-      "Microsoft.Net.Http/2.2.28": {
+      "Microsoft.Net.Http/2.2.29": {
         "dependencies": {
-          "Microsoft.Bcl": "[1.1.9, )",
+          "Microsoft.Bcl": "[1.1.10, )",
           "Microsoft.Bcl.Build": "[1.0.14, )"
         },
         "compile": {
@@ -5258,6 +5321,27 @@
         },
         "runtime": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Q42.HueApi/2.2.0": {
+        "dependencies": {
+          "Microsoft.Net.Http": "[2.2.29, )",
+          "Newtonsoft.Json": "[7.0.1, )",
+          "Q42.HueApi.WinRT": "[1.4.3.42, )"
+        },
+        "compile": {
+          "lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.dll": {}
+        }
+      },
+      "Q42.HueApi.WinRT/1.4.3.42": {
+        "compile": {
+          "lib/portable-win81+WindowsPhoneApp81/Q42.HueApi.WinRT.dll": {}
+        },
+        "runtime": {
+          "lib/portable-win81+WindowsPhoneApp81/Q42.HueApi.WinRT.dll": {}
         }
       },
       "System.AppContext/4.0.0": {
@@ -6666,7 +6750,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
-      "Microsoft.Bcl/1.1.9": {
+      "Microsoft.Bcl/1.1.10": {
         "dependencies": {
           "Microsoft.Bcl.Build": "[1.0.14, )"
         },
@@ -6717,9 +6801,9 @@
           "lib/netcore50/Microsoft.CSharp.dll": {}
         }
       },
-      "Microsoft.Net.Http/2.2.28": {
+      "Microsoft.Net.Http/2.2.29": {
         "dependencies": {
-          "Microsoft.Bcl": "[1.1.9, )",
+          "Microsoft.Bcl": "[1.1.10, )",
           "Microsoft.Bcl.Build": "[1.0.14, )"
         },
         "compile": {
@@ -6938,6 +7022,27 @@
         },
         "runtime": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Q42.HueApi/2.2.0": {
+        "dependencies": {
+          "Microsoft.Net.Http": "[2.2.29, )",
+          "Newtonsoft.Json": "[7.0.1, )",
+          "Q42.HueApi.WinRT": "[1.4.3.42, )"
+        },
+        "compile": {
+          "lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.dll": {}
+        }
+      },
+      "Q42.HueApi.WinRT/1.4.3.42": {
+        "compile": {
+          "lib/portable-win81+WindowsPhoneApp81/Q42.HueApi.WinRT.dll": {}
+        },
+        "runtime": {
+          "lib/portable-win81+WindowsPhoneApp81/Q42.HueApi.WinRT.dll": {}
         }
       },
       "System.AppContext/4.0.0": {
@@ -8332,7 +8437,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x86": {
-      "Microsoft.Bcl/1.1.9": {
+      "Microsoft.Bcl/1.1.10": {
         "dependencies": {
           "Microsoft.Bcl.Build": "[1.0.14, )"
         },
@@ -8383,9 +8488,9 @@
           "lib/netcore50/Microsoft.CSharp.dll": {}
         }
       },
-      "Microsoft.Net.Http/2.2.28": {
+      "Microsoft.Net.Http/2.2.29": {
         "dependencies": {
-          "Microsoft.Bcl": "[1.1.9, )",
+          "Microsoft.Bcl": "[1.1.10, )",
           "Microsoft.Bcl.Build": "[1.0.14, )"
         },
         "compile": {
@@ -8623,6 +8728,27 @@
         },
         "runtime": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Q42.HueApi/2.2.0": {
+        "dependencies": {
+          "Microsoft.Net.Http": "[2.2.29, )",
+          "Newtonsoft.Json": "[7.0.1, )",
+          "Q42.HueApi.WinRT": "[1.4.3.42, )"
+        },
+        "compile": {
+          "lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.dll": {}
+        }
+      },
+      "Q42.HueApi.WinRT/1.4.3.42": {
+        "compile": {
+          "lib/portable-win81+WindowsPhoneApp81/Q42.HueApi.WinRT.dll": {}
+        },
+        "runtime": {
+          "lib/portable-win81+WindowsPhoneApp81/Q42.HueApi.WinRT.dll": {}
         }
       },
       "System.AppContext/4.0.0": {
@@ -10031,7 +10157,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
-      "Microsoft.Bcl/1.1.9": {
+      "Microsoft.Bcl/1.1.10": {
         "dependencies": {
           "Microsoft.Bcl.Build": "[1.0.14, )"
         },
@@ -10082,9 +10208,9 @@
           "lib/netcore50/Microsoft.CSharp.dll": {}
         }
       },
-      "Microsoft.Net.Http/2.2.28": {
+      "Microsoft.Net.Http/2.2.29": {
         "dependencies": {
-          "Microsoft.Bcl": "[1.1.9, )",
+          "Microsoft.Bcl": "[1.1.10, )",
           "Microsoft.Bcl.Build": "[1.0.14, )"
         },
         "compile": {
@@ -10303,6 +10429,27 @@
         },
         "runtime": {
           "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Q42.HueApi/2.2.0": {
+        "dependencies": {
+          "Microsoft.Net.Http": "[2.2.29, )",
+          "Newtonsoft.Json": "[7.0.1, )",
+          "Q42.HueApi.WinRT": "[1.4.3.42, )"
+        },
+        "compile": {
+          "lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.dll": {}
+        }
+      },
+      "Q42.HueApi.WinRT/1.4.3.42": {
+        "compile": {
+          "lib/portable-win81+WindowsPhoneApp81/Q42.HueApi.WinRT.dll": {}
+        },
+        "runtime": {
+          "lib/portable-win81+WindowsPhoneApp81/Q42.HueApi.WinRT.dll": {}
         }
       },
       "System.AppContext/4.0.0": {
@@ -11698,25 +11845,12 @@
     }
   },
   "libraries": {
-    "Microsoft.Bcl/1.1.9": {
-      "sha512": "USQ55innJy8K+tAXvVa1O8dUTp2s7pmJ5cJj6Tl02HtGc2xBDj0P2QH5620HbGXIWKWYhydoeQF8Rm/JRDBGhw==",
+    "Microsoft.Bcl/1.1.10": {
+      "sha512": "+tTqoh/M1pyL8El3qLy30EcwnAtyvFoDZJtdG9Cbg/WdFbh4N8kyrq198XHuEL7lnJbeD0DRO8jcX5IIOh05cQ==",
       "type": "Package",
       "files": [
         "[Content_Types].xml",
         "_rels/.rels",
-        "content/monoandroid/_._",
-        "content/monotouch/_._",
-        "content/net45/_._",
-        "content/portable-net45+win8+wp8+wpa81/_._",
-        "content/portable-net45+win8+wpa81/_._",
-        "content/portable-net451+win81/_._",
-        "content/portable-net451+win81+wpa81/_._",
-        "content/portable-win81+wp81+wpa81/_._",
-        "content/sl4/_._",
-        "content/sl5/_._",
-        "content/win8/_._",
-        "content/wp8/_._",
-        "content/wpa81/_._",
         "lib/monoandroid/_._",
         "lib/monotouch/_._",
         "lib/net40/ensureRedirect.xml",
@@ -11796,9 +11930,10 @@
         "lib/win8/_._",
         "lib/wp8/_._",
         "lib/wpa81/_._",
+        "lib/Xamarin.iOS10/_._",
         "License-Stable.rtf",
         "Microsoft.Bcl.nuspec",
-        "package/services/metadata/core-properties/a2c2e4aac469425ea858153a6ad602c0.psmdcp"
+        "package/services/metadata/core-properties/b43ef6ce7de9447f9f8b39e2e41a185e.psmdcp"
       ]
     },
     "Microsoft.Bcl.Async/1.0.168": {
@@ -11910,8 +12045,8 @@
         "ref/xamarinmac20/_._"
       ]
     },
-    "Microsoft.Net.Http/2.2.28": {
-      "sha512": "hPL9k+rPIpAj84RZSq3WtJkOD9uMStBovAIAz/0OQ+9hQIwQ2XqQlAhMqI4kw0XDxweJySIqNTMlkhRRuthcPQ==",
+    "Microsoft.Net.Http/2.2.29": {
+      "sha512": "fc4CPEewJ30Xgal+fSq1lYIBt582A7eKlAL7O4HXiYAiTp2VTnA4osSvk7T2n8aS4xTCPVJusQk3yKLT0XSpkg==",
       "type": "Package",
       "files": [
         "[Content_Types].xml",
@@ -11969,9 +12104,13 @@
         "lib/wpa81/System.Net.Http.Extensions.XML",
         "lib/wpa81/System.Net.Http.Primitives.dll",
         "lib/wpa81/System.Net.Http.Primitives.xml",
+        "lib/Xamarin.iOS10/System.Net.Http.Extensions.dll",
+        "lib/Xamarin.iOS10/System.Net.Http.Extensions.XML",
+        "lib/Xamarin.iOS10/System.Net.Http.Primitives.dll",
+        "lib/Xamarin.iOS10/System.Net.Http.Primitives.xml",
         "License-Stable.rtf",
         "Microsoft.Net.Http.nuspec",
-        "package/services/metadata/core-properties/c97ab158801448e9aeb07e2b039b0e1e.psmdcp"
+        "package/services/metadata/core-properties/9ad4325e7ab9496288f2be824bbc6161.psmdcp"
       ]
     },
     "Microsoft.NETCore/5.0.0": {
@@ -12607,6 +12746,30 @@
         "Newtonsoft.Json.nuspec",
         "package/services/metadata/core-properties/ec951ab7a85848cfa5a19094817892b5.psmdcp",
         "tools/install.ps1"
+      ]
+    },
+    "Q42.HueApi/2.2.0": {
+      "sha512": "Se8mu8GO4gzLKdUcSMGqLI7sAgG6/0n90bS78ybnpP3ZQm07wZqT8lqSJ4NvhgEDnv8zUhYeCy+E2gOtDJWAOg==",
+      "type": "Package",
+      "files": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.dll",
+        "lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.XML",
+        "package/services/metadata/core-properties/66ca2ec2b86244bf953df9a58c9a8a8c.psmdcp",
+        "Q42.HueApi.nuspec"
+      ]
+    },
+    "Q42.HueApi.WinRT/1.4.3.42": {
+      "sha512": "RmrFA7kGCR2xFN1s6oK/IswNaSqS2hO7LejV1jIyvSpu9Lmgq5mEwkRWIFE7Ke/ljGGeQu8kbJIbSmfPSWS7aA==",
+      "type": "Package",
+      "files": [
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "lib/portable-win81+WindowsPhoneApp81/Q42.HueApi.WinRT.dll",
+        "lib/portable-win81+WindowsPhoneApp81/Q42.HueApi.WinRT.XML",
+        "package/services/metadata/core-properties/c0b5078515d04a23befed8241b5e6bdf.psmdcp",
+        "Q42.HueApi.WinRT.nuspec"
       ]
     },
     "System.AppContext/4.0.0": {
@@ -15334,6 +15497,7 @@
     "": [
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.0.0",
       "Newtonsoft.Json >= 8.0.1",
+      "Q42.HueApi >= 2.2.0",
       "WeatherNet.uwp >= 2.1.2",
       "WolframAlpha.Api.v2 >= 1.0.1"
     ],

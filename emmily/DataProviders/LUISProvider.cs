@@ -83,10 +83,49 @@ namespace emmily.DataProviders
             {
                 case "music":
                     return HandleMusicIntent(intentArray[1]);
+                case "light":
+                    return await HandleLightIntent(intentArray[1]);
                 default:
                     return false;
             }
             
+        }
+
+        private async Task<bool> HandleLightIntent(string intent)
+        {
+            var lightProvider = LightProvider.GetInstance();
+            if (lightProvider.Status == LightProviderStatus.NotInitialized)
+            {
+                await lightProvider.FindAndConnectToLights();
+            }
+            if (lightProvider.Status == LightProviderStatus.NoBridgesFound)
+            {
+                // respond that the bridge is not found
+                return false;
+            }
+            else if (lightProvider.Status == LightProviderStatus.BridgeNotRegistered)
+            {
+                var status = await lightProvider.RegisterApp();
+                // attempt to register
+            }
+
+            if (lightProvider.Status != LightProviderStatus.Connected)
+            {
+                // respond with can't connect, no idea why
+                return false;
+            }
+
+            switch (intent)
+            {
+                case "on":
+                    await lightProvider.TurnOnLights();
+                    return true;
+                case "off":
+                    await lightProvider.TurnOffLights();
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         private bool HandleMusicIntent(string intent)
