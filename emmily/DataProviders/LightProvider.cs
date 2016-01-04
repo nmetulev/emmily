@@ -1,5 +1,6 @@
 ﻿using Q42.HueApi;
 using Q42.HueApi.Interfaces;
+using Q42.HueApi.WinRT;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -34,7 +35,9 @@ namespace emmily.DataProviders
 
         public async Task<LightProviderStatus> FindAndConnectToLights()
         {
-            var locator = new HttpBridgeLocator();
+            //var locator = new HttpBridgeLocator();
+            var locator = new SSDPBridgeLocator();
+
             IEnumerable<string> bridgeIPs = null;
 
             try

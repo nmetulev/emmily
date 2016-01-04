@@ -67,7 +67,7 @@ namespace emmily.DataProviders
             var data = new WeatherData();
             data.Location = _geoLocation.city;
 
-            var currentWeatherTask = WeatherNet.Clients.CurrentWeather.GetByCityNameAsync(_geoLocation.city, _geoLocation.country_name, "en", Settings.Unit.ToString().ToLower());
+            var currentWeatherTask = WeatherNet.Clients.CurrentWeather.GetByCityName(_geoLocation.city, _geoLocation.country_name, "en", Settings.Unit.ToString().ToLower());
             //var fiveDayWeatherTask = WeatherNet.Clients.FiveDaysForecast.GetByCityNameAsync(_geoLocation.city, _geoLocation.country_name, "en", Settings.Unit.ToString().ToLower());
 
             List<Task> tasks = new List<Task>();

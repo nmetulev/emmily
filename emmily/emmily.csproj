@@ -151,6 +151,10 @@
       <Project>{4df88452-f187-47de-9d93-2023e55874cf}</Project>
       <Name>Microsoft.ProjectOxford.Emotion.UWP</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\weather-net\WeatherNet.UWP\WeatherNet.UWP.csproj">
+      <Project>{53d4c79f-455c-4447-9765-6f7a7f5a4f79}</Project>
+      <Name>WeatherNet.UWP</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
