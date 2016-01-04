@@ -44,8 +44,7 @@ namespace emmily
             List<Task> tasks = new List<Task>();
             tasks.Add(InitWeather());
             tasks.Add(InitSpeech());
-            // init camera
-
+            tasks.Add(InitCamera());
 
             await Task.WhenAll(tasks.ToArray());
                         
@@ -122,6 +121,23 @@ namespace emmily
             Weather_Description.Text = currentWeather.Description;
             Weather_Location.Text = currentWeather.Location.ToLower();
             Weather_Wind.Text = currentWeather.Wind;
+        }
+
+        #endregion
+
+        #region Camera
+
+        private async Task InitCamera()
+        {
+            //if (await CameraProvider.GetInstance().InitializeCameraAsync())
+            //{
+            //    CameraProvider.GetInstance().DetectedPeopleChanged += MainPage_EmotionDetected;
+            //}
+        }
+
+        private void MainPage_EmotionDetected(object sender, PeopleDetectionEventArgs e)
+        {
+            UpdateBottomText(e.Emotions.First().ToString());
         }
 
         #endregion

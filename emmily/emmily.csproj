@@ -97,6 +97,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\CustomDateProvider.cs" />
+    <Compile Include="DataProviders\CameraProvider.cs" />
+    <Compile Include="DataProviders\EmotionProvider.cs" />
     <Compile Include="DataProviders\IUserResponseConnection.cs" />
     <Compile Include="DataProviders\LightProvider.cs" />
     <Compile Include="DataProviders\LocationProvider.cs" />
@@ -144,7 +146,12 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\ProjectOxford-ClientSDK\Emotion\Windows\Microsoft.ProjectOxford.Emotion.UWP\Microsoft.ProjectOxford.Emotion.UWP.csproj">
+      <Project>{4df88452-f187-47de-9d93-2023e55874cf}</Project>
+      <Name>Microsoft.ProjectOxford.Emotion.UWP</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

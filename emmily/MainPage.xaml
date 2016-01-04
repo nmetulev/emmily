@@ -16,8 +16,8 @@
         <Grid Name="HomeContent" Margin="30">
             <Grid VerticalAlignment="Top" HorizontalAlignment="Left">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Name="Clock_Date" FontSize="30">this is le date</TextBlock>
-                    <TextBlock Name="Clock_Time" FontSize="60">12:00 am</TextBlock>
+                    <TextBlock Name="Clock_Date" FontSize="30">N/A</TextBlock>
+                    <TextBlock Name="Clock_Time" FontSize="60">00:00 na</TextBlock>
                     <StackPanel Name="MusicInfo" Visibility="Collapsed" Orientation="Horizontal" Margin="0,30,0,0">
                         <Viewbox Height="40">
                             <SymbolIcon Symbol="Play"></SymbolIcon>
@@ -29,26 +29,26 @@
 
             <Grid VerticalAlignment="Top" HorizontalAlignment="Right">
                 <StackPanel>
-                    <TextBlock Name="Weather_Location" FontSize="30" TextAlignment="Right">bellevue</TextBlock>
+                    <TextBlock Name="Weather_Location" FontSize="30" TextAlignment="Right">N/A</TextBlock>
                     <Grid Width="150">
                         <StackPanel HorizontalAlignment="Right">
                             <TextBlock TextAlignment="Center" Foreground="Gray">high</TextBlock>
-                            <TextBlock Name="Weather_High" FontSize="30" TextAlignment="Center" Margin="0">32C</TextBlock>
+                            <TextBlock Name="Weather_High" FontSize="30" TextAlignment="Center" Margin="0">N/A</TextBlock>
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Left">
                             <TextBlock TextAlignment="Center" Foreground="Gray">low</TextBlock>
-                            <TextBlock Name="Weather_Low" FontSize="30" TextAlignment="Center" Margin="0">32C</TextBlock>
+                            <TextBlock Name="Weather_Low" FontSize="30" TextAlignment="Center" Margin="0">N/A</TextBlock>
                         </StackPanel>
                     </Grid>
-                    <TextBlock Name="Weather_Temp" FontSize="60" TextAlignment="Right">3C</TextBlock>
-                    <TextBlock Name="Weather_Description" FontSize="20" TextAlignment="Right">light rain</TextBlock>
+                    <TextBlock Name="Weather_Temp" FontSize="60" TextAlignment="Right">N/A</TextBlock>
+                    <TextBlock Name="Weather_Description" FontSize="20" TextAlignment="Right">N/A</TextBlock>
                     <TextBlock Name="Weather_Wind" FontSize="20" TextAlignment="Right"></TextBlock>
 
                 </StackPanel>
             </Grid>
         </Grid>
 
-        <Grid Name="ResponseGrid" Visibility="Visible" Margin="300,250, 300, 100">
+        <Grid Name="ResponseGrid" Visibility="Collapsed" Margin="300,250, 300, 100">
             <Grid VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>

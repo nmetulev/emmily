@@ -29,9 +29,9 @@ namespace emmily.DataProviders
         private LUISProvider()
         {
             _partialUri = "https://api.projectoxford.ai/luis/v1/application?id=" + 
-                          APIKeys.CortanaLUISAppID + 
+                          APIKeys.LUISAppID + 
                           "&subscription-key=" + 
-                          APIKeys.CortanaLUISSubscriptionKey + 
+                          APIKeys.LUISSubscriptionKey + 
                           "&q=";
         }
 
