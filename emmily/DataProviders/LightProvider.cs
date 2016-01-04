@@ -2,6 +2,7 @@
 using Q42.HueApi.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,9 +35,18 @@ namespace emmily.DataProviders
         public async Task<LightProviderStatus> FindAndConnectToLights()
         {
             var locator = new HttpBridgeLocator();
-            var bridgeIPs = await locator.LocateBridgesAsync(TimeSpan.FromSeconds(5));
+            IEnumerable<string> bridgeIPs = null;
 
-            if (bridgeIPs.Count() > 0)
+            try
+            {
+                bridgeIPs = await locator.LocateBridgesAsync(TimeSpan.FromSeconds(5));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            if (bridgeIPs != null && bridgeIPs.Count() > 0)
             {
                 _client = new LocalHueClient(bridgeIPs.First());
 
