@@ -48,7 +48,7 @@
             </Grid>
         </Grid>
 
-        <Grid Name="ResponseGrid" Visibility="Collapsed" Margin="300,250, 300, 100">
+        <Grid Name="ResponseGrid" Visibility="Visible" Margin="300,250, 300, 100">
             <Grid VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
@@ -57,7 +57,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Name="Response_Text" TextAlignment="Center" Grid.Row="0" FontSize="40" TextWrapping="WrapWholeWords">Will do</TextBlock>
                 <TextBlock Name="Response_Subtext" TextAlignment="Center" Grid.Row="1" FontSize="30" Foreground="Gray" Margin="0,10,0,20" TextWrapping="WrapWholeWords">Playing music now</TextBlock>
-                <Image Name="Response_Image" Grid.Row="2" Source="https://images.unsplash.com/photo-1444005233317-7fb24f0da789" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                <Image Name="Response_Image" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="2" Source="https://images.unsplash.com/photo-1444005233317-7fb24f0da789" Stretch="Uniform"></Image>
             </Grid>
         </Grid>
 

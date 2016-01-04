@@ -14,6 +14,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.SpeechRecognition;
 using Windows.Media.SpeechSynthesis;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -370,6 +371,7 @@ namespace emmily
 
         public async Task<bool> RespondAsync(string text, Uri imageUri, bool silent = false)
         {
+            var image = await PreLoadImage(imageUri);
             await ResponseGrid.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
             {
                 await HideResponseGrid();
@@ -379,7 +381,7 @@ namespace emmily
 
                 Response_Subtext.Visibility = Visibility.Collapsed;
 
-                Response_Image.Source = new BitmapImage(imageUri);
+                Response_Image.Source = image;
                 Response_Image.Visibility = Visibility.Visible;
 
                 await ShowResponseGrid();
@@ -435,6 +437,14 @@ namespace emmily
                 BottomText.Text = text;
 
             });
+        }
+
+        private async Task<BitmapImage> PreLoadImage(Uri uri)
+        {
+            var bitmap = new BitmapImage();
+            var file = await StorageFile.CreateStreamedFileFromUriAsync("image.jpg", uri, null);
+            await bitmap.SetSourceAsync(await file.OpenReadAsync());
+            return bitmap;
         }
 
         #endregion
