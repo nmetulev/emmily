@@ -97,6 +97,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\CustomDateProvider.cs" />
+    <Compile Include="DataProviders\IUserResponseConnection.cs" />
     <Compile Include="DataProviders\LightProvider.cs" />
     <Compile Include="DataProviders\LocationProvider.cs" />
     <Compile Include="DataProviders\LUISProvider.cs" />

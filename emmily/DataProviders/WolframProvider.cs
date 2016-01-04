@@ -27,7 +27,7 @@ namespace emmily.DataProviders
             _request = new QueryRequest();
         }
 
-        public async Task<string> GetSimpleResultForQuery(string query)
+        public async Task<WolframResponse> GetSimpleResultForQuery(string query)
         {
             try
             {
@@ -49,7 +49,21 @@ namespace emmily.DataProviders
 
                 if (string.IsNullOrWhiteSpace(resultSubPod.PlainText)) return null;
 
-                return resultSubPod.PlainText;
+                var response = new WolframResponse();
+                response.Text = resultSubPod.PlainText;
+
+                var imagePod = result.Pods.FirstOrDefault(p => p.Title == "Image");
+                if (imagePod != null && imagePod.SubPods.Count() > 0)
+                {
+                    var imageSubPod = imagePod.SubPods.First();
+
+                    if (imageSubPod.Img != null)
+                    {
+                        response.Image = new Uri(imageSubPod.Img.Src);
+                    }
+                }
+
+                return response;
             }
             catch (Exception ex)
             {
@@ -59,5 +73,11 @@ namespace emmily.DataProviders
             
 
         }
+    }
+
+    public class WolframResponse
+    {
+        public string Text { get; set; }
+        public Uri Image { get; set; }
     }
 }

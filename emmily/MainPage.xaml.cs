@@ -20,13 +20,13 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace emmily
 {
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage : Page, IUserResponseConnection
     {
-
         public MainPage()
         {
             this.InitializeComponent();
@@ -43,13 +43,11 @@ namespace emmily
             List<Task> tasks = new List<Task>();
             tasks.Add(InitWeather());
             tasks.Add(InitSpeech());
-            tasks.Add(InitLights());
             // init camera
-            // init lights
 
 
             await Task.WhenAll(tasks.ToArray());
-            
+                        
             if (!_speechInit) BottomText.Text = "Speech did not initialize, but you can still look at yourself :)";
             else BottomText.Text = DefaultBottomText;
 
@@ -182,30 +180,20 @@ namespace emmily
             {
                 var t = BottomText.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    StartListening();
+                    ListenAndHandleRequest();
                 });
             }
 
         }
 
-        private async Task UpdateBottomText(string text, bool speak = false)
-        {
-            await BottomText.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            {
-                BottomText.Text = text;
-                
-            });
-
-            if (speak)
-                await SpeakAsync(text);
-        }
+        
 
         private void _speechRecognizer_HypothesisGenerated(SpeechRecognizer sender, SpeechRecognitionHypothesisGeneratedEventArgs args)
         {
             UpdateBottomText(args.Hypothesis.Text);
         }
 
-        private async Task StartListening()
+        private async Task ListenAndHandleRequest()
         {
             await _continousSpeechRecognizer.ContinuousRecognitionSession.CancelAsync();
             UpdateBottomText("listening...");
@@ -225,9 +213,8 @@ namespace emmily
             {
                 UpdateBottomText("\"" + spokenText + "\"");
 
-                var LUISTask = LUISProvider.GetInstance().GetIntent(spokenText);
+                var LUISTask = LUISProvider.GetInstance().GetAndHandleIntent(spokenText, this);
                 var WolframTask = WolframProvider.GetInstance().GetSimpleResultForQuery(spokenText);
-
 
                 List<Task> tasks = new List<Task>();
                 tasks.Add(LUISTask);
@@ -235,17 +222,20 @@ namespace emmily
 
                 await Task.WhenAll(tasks.ToArray());
 
-                if (LUISTask.Result)
-                {
-                    UpdateBottomText("Done :)");
-                }
-                else
+                // if LUIS has not handled this request
+                // try to get an answer from Wolfram Alpha
+                if (!LUISTask.Result && WolframTask.Result != null)
                 {
                     var result = WolframTask.Result;
-                    if (result != null)
-                        await UpdateBottomText(result, true);
+                    
+                    if (result.Image == null)
+                        await RespondAsync(result.Text);
                     else
-                        UpdateBottomText("I don't know what you are talking about wilis");
+                        await RespondAsync(result.Text, result.Image);
+                }
+                else if (!LUISTask.Result)
+                {
+                    await RespondAsync("i don't know that yet!", true);
                 }
             }
 
@@ -253,6 +243,7 @@ namespace emmily
 
             await Task.Delay(3000);
 
+            HideResponseGrid();
             UpdateBottomText(DefaultBottomText);
             await _continousSpeechRecognizer.ContinuousRecognitionSession.StartAsync();
 
@@ -327,18 +318,126 @@ namespace emmily
             });
         }
 
+
         #endregion
 
-        #region Lights
-
-        private async Task InitLights()
+        #region IUserResponseConnection
+        
+        public async Task<bool> RespondAsync(string text, bool silent = false)
         {
-            var provider = LightProvider.GetInstance();
-            await provider.FindAndConnectToLights();
+            await ResponseGrid.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+            {
+                await HideResponseGrid();
+
+                Response_Text.Visibility = Visibility.Visible;
+                Response_Text.Text = text;
+
+                Response_Subtext.Visibility = Visibility.Collapsed;
+
+                Response_Image.Visibility = Visibility.Collapsed;
+
+                await ShowResponseGrid();
+            });
+
+            if (!silent)
+                await SpeakAsync(text);
+
+            return true;
+        }
+
+        public async Task<bool> RespondAsync(string text, string subtext, bool silent = false)
+        {
+            await ResponseGrid.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+            {
+                await HideResponseGrid();
+
+                Response_Text.Text = text;
+                Response_Text.Visibility = Visibility.Visible;
+
+                Response_Subtext.Text = subtext;
+                Response_Subtext.Visibility = Visibility.Visible;
+
+                Response_Image.Visibility = Visibility.Collapsed;
+
+                await ShowResponseGrid();
+            });
+
+            if (!silent)
+                await SpeakAsync(text);
+
+            return true;
+        }
+
+        public async Task<bool> RespondAsync(string text, Uri imageUri, bool silent = false)
+        {
+            await ResponseGrid.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+            {
+                await HideResponseGrid();
+
+                Response_Text.Text = text;
+                Response_Text.Visibility = Visibility.Visible;
+
+                Response_Subtext.Visibility = Visibility.Collapsed;
+
+                Response_Image.Source = new BitmapImage(imageUri);
+                Response_Image.Visibility = Visibility.Visible;
+
+                await ShowResponseGrid();
+            });
+
+            if (!silent)
+                await SpeakAsync(text);
+
+            return true;
+        }
+
+        public async Task<string> AskForResponseAsync(string text)
+        {
+            await ResponseGrid.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+
+            });
+            return "";
+        }
+
+        public async Task<string> AskForResponseAsync(string text, string subtext)
+        {
+            await ResponseGrid.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+
+            });
+            return "";
+        }
+
+        public async Task<string> AskForResponseAsync(string text, Uri imageUri)
+        {
+            await ResponseGrid.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+
+            });
+            return "";
+        }
+
+        private async Task HideResponseGrid()
+        {
+            ResponseGrid.Visibility = Visibility.Collapsed;
+        }
+
+        private async Task ShowResponseGrid()
+        {
+            ResponseGrid.Visibility = Visibility.Visible;
+        }
+
+        private void UpdateBottomText(string text)
+        {
+            var t = BottomText.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                BottomText.Text = text;
+
+            });
         }
 
         #endregion
-
 
     }
 }

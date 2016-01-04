@@ -37,7 +37,7 @@ namespace emmily.DataProviders
 
 
         // returns handled or not
-        public async Task<bool> GetIntent(string query)
+        public async Task<bool> GetAndHandleIntent(string query, IUserResponseConnection responseConnection)
         {
             using (var client = new HttpClient())
             {
@@ -47,7 +47,7 @@ namespace emmily.DataProviders
 
                     var response = JsonConvert.DeserializeObject<LUISResponse>(httpResponse);
 
-                    return await HandleIntent(response);
+                    return await HandleIntent(response, responseConnection);
                 }
                 catch (Exception ex)
                 {
@@ -57,7 +57,7 @@ namespace emmily.DataProviders
             }
         }
 
-        private async Task<bool> HandleIntent(LUISResponse response)
+        private async Task<bool> HandleIntent(LUISResponse response, IUserResponseConnection responseConnection)
         {
             if (response == null || response.intents.Count == 0) return false;
 
@@ -82,16 +82,18 @@ namespace emmily.DataProviders
             switch (intentArray[0])
             {
                 case "music":
-                    return HandleMusicIntent(intentArray[1]);
+                    await HandleMusicIntent(intentArray[1], responseConnection);
+                    return true;
                 case "light":
-                    return await HandleLightIntent(intentArray[1]);
+                    await HandleLightIntent(intentArray[1], responseConnection);
+                    return true;
                 default:
                     return false;
             }
             
         }
 
-        private async Task<bool> HandleLightIntent(string intent)
+        private async Task HandleLightIntent(string intent, IUserResponseConnection responseConnection)
         {
             var lightProvider = LightProvider.GetInstance();
             if (lightProvider.Status == LightProviderStatus.NotInitialized)
@@ -100,52 +102,68 @@ namespace emmily.DataProviders
             }
             if (lightProvider.Status == LightProviderStatus.NoBridgesFound)
             {
-                // respond that the bridge is not found
-                return false;
+                await responseConnection.RespondAsync("I can't find any bridges", "Make sure any Hue bridges are turned on and connected");
+                return;
             }
             else if (lightProvider.Status == LightProviderStatus.BridgeNotRegistered)
             {
+                var registerResponse = responseConnection.RespondAsync("Sure, just press the bridge button this one time", "you have 30ish seconds, no pressure :)");
                 var status = await lightProvider.RegisterApp();
+                await registerResponse;
+
+                if (status != LightProviderStatus.Connected)
+                {
+                    await responseConnection.RespondAsync("I don't think you pressed the button", "... but what do I know, I'm a mirror");
+                    return;
+                }
+                else
+                {
+                    await responseConnection.RespondAsync("thanks", "now onto that action you wanted me to do");
+                }
                 // attempt to register
             }
 
             if (lightProvider.Status != LightProviderStatus.Connected)
             {
-                // respond with can't connect, no idea why
-                return false;
+                await responseConnection.RespondAsync("Can't Connect for some reason");
+                return;
             }
 
             switch (intent)
             {
                 case "on":
                     await lightProvider.TurnOnLights();
-                    return true;
+                    await responseConnection.RespondAsync("light's are now on", true);
+                    return;
                 case "off":
                     await lightProvider.TurnOffLights();
-                    return true;
+                    await responseConnection.RespondAsync("light's are now off", true);
+                    return;
                 default:
-                    return false;
+                    return;
             }
         }
 
-        private bool HandleMusicIntent(string intent)
+        private async Task HandleMusicIntent(string intent, IUserResponseConnection responseConnection)
         {
             switch (intent)
             {
                 case "play":
                     MusicProvider.GetInstance().StartPlayback();
-                    return true;
+                    await responseConnection.RespondAsync("Party on ;)", true);
+                    return;
                 case "stop":
                     MusicProvider.GetInstance().StopPlayback();
-                    return true;
+                    await responseConnection.RespondAsync("Party off :(", true);
+                    return;
                 case "toggle":
                     if (MusicProvider.GetInstance().IsPlaying())
                         MusicProvider.GetInstance().StopPlayback();
                     else
                         MusicProvider.GetInstance().StartPlayback();
-                    return true;
+                    return;
                 default:
-                    return false;
+                    return;
             } 
         }
     }
