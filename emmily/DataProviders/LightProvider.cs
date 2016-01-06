@@ -35,8 +35,8 @@ namespace emmily.DataProviders
 
         public async Task<LightProviderStatus> FindAndConnectToLights()
         {
-            //var locator = new HttpBridgeLocator();
-            var locator = new SSDPBridgeLocator();
+            var locator = new HttpBridgeLocator();
+            //var locator = new SSDPBridgeLocator();
 
             IEnumerable<string> bridgeIPs = null;
 
