@@ -87,6 +87,9 @@ namespace emmily.DataProviders
                 case "light":
                     await HandleLightIntent(intentArray[1], responseConnection);
                     return true;
+                case "activity":
+                    await HandleActivityIntent(intentArray[1], responseConnection);
+                    return true;
                 default:
                     return false;
             }
@@ -165,6 +168,21 @@ namespace emmily.DataProviders
                 default:
                     return;
             } 
+        }
+
+        private async Task HandleActivityIntent(string intent, IUserResponseConnection responseConnection)
+        {
+            switch (intent)
+            {
+                case "all_off":
+                    await responseConnection.RespondAsync("TODO");
+                    return;
+                case "wake_up":
+                    await responseConnection.RespondAsync("TODO");
+                    return;
+                default:
+                    return;
+            }
         }
     }
 }
