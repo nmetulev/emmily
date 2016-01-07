@@ -160,7 +160,7 @@ namespace emmily
                 manualResetEvent = new ManualResetEvent(false);
 
                 _continousSpeechRecognizer = new SpeechRecognizer();
-                _continousSpeechRecognizer.Constraints.Add(new SpeechRecognitionListConstraint(new List<String>() { "Hey Em" }, "start"));
+                _continousSpeechRecognizer.Constraints.Add(new SpeechRecognitionListConstraint(new List<String>() { "Hey Emily" }, "start"));
                 var result = await _continousSpeechRecognizer.CompileConstraintsAsync();
 
                 if (result.Status != SpeechRecognitionResultStatus.Success)
