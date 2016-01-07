@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WolframAlpha.Api.v2;
+using WolframAlpha.Api.v2.Components;
 using WolframAlpha.Api.v2.Requests;
 
 namespace emmily.DataProviders
@@ -41,16 +42,32 @@ namespace emmily.DataProviders
                     result.Success == "false" ||
                     result.Pods.Count() == 0) return null;
 
-                var resultPod = result.Pods.FirstOrDefault(p => p.Title == "Result");
-
-                if (resultPod == null || resultPod.SubPods.Count() == 0) return null;
-
-                var resultSubPod = resultPod.SubPods.First();
-
-                if (string.IsNullOrWhiteSpace(resultSubPod.PlainText)) return null;
-
                 var response = new WolframResponse();
-                response.Text = resultSubPod.PlainText;
+
+                var resultPod = result.Pods.FirstOrDefault(p => p.Title == "Result");
+                var factsPod = result.Pods.FirstOrDefault(p => p.Title == "Notable facts");
+                var basicPod = result.Pods.FirstOrDefault(p => p.Title == "Basic information");
+
+                var resultText = GetPlainTextFromPod(resultPod);
+                var factsText = GetPlainTextFromPod(factsPod);
+                var basicText = GetPlainTextFromPod(basicPod);
+
+                if (resultText != null)
+                {
+                    response.Text = resultText;
+                }
+                else if (factsText != null)
+                {
+                    response.Text = factsText.Split(new[] { '\r', '\n', '.' }).FirstOrDefault();
+
+                    response.SubText = basicText;
+                }
+                else if (basicText != null)
+                {
+                    response.Text = basicText;
+                }
+                else
+                    return null;
 
                 var imagePod = result.Pods.FirstOrDefault(p => p.Title == "Image");
                 if (imagePod != null && imagePod.SubPods.Count() > 0)
@@ -73,11 +90,24 @@ namespace emmily.DataProviders
             
 
         }
+
+        private string GetPlainTextFromPod(Pod pod)
+        {
+            if (pod != null &&
+                pod.SubPods.Count() != 0 &&
+                !string.IsNullOrWhiteSpace(pod.SubPods[0].PlainText))
+            {
+                return pod.SubPods[0].PlainText;
+            }
+            return null;
+        }
+        
     }
 
     public class WolframResponse
     {
         public string Text { get; set; }
+        public string SubText { get; set; }
         public Uri Image { get; set; }
     }
 }
